@@ -3,7 +3,7 @@ import os
 DATA_FILE = 'mydata.csv'
 REPLICA_FILES = ['mydata_direct.csv', 'mydata_via_mem.csv']
 TEMP_FILE = 'temp'
-TARGET_SIZE = int(1e9)
+TARGET_SIZE = int(2e9)
 COL_COUNT = 10
 
 

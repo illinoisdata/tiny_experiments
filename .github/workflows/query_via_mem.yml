@@ -1,0 +1,27 @@
+name: QUERY_VIA_MEM
+
+on: push
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./query_via_mem
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+    - name: Dependencies
+      run: pip install -r requirements.txt
+      working-directory: ${{env.working-directory}}
+    - name: Setup
+      run: |
+        python create_data_files.py
+        sudo mkdir /mnt/ramdisk
+        sudo mount -t tmpfs -o rw,size=2G tmpfs /mnt/ramdisk
+        df -h
+      working-directory: ${{env.working-directory}}
+    - name: Benchmark
+      run: python bench.py
+      working-directory: ${{env.working-directory}} 

@@ -3,7 +3,7 @@ name: QUERY_VIA_MEM
 on: push
 
 jobs:
-  test:
+  bench:
     runs-on: ubuntu-latest
     env:
       working-directory: ./query_via_mem
@@ -18,10 +18,10 @@ jobs:
     - name: Setup
       run: |
         python create_data_files.py
-        mkdir /mnt/ramdisk
+        sudo mkdir /mnt/ramdisk
         sudo mount -t tmpfs -o rw,size=2G tmpfs /mnt/ramdisk
         df -h
       working-directory: ${{env.working-directory}}
-    - name: Test
+    - name: Benchmark
       run: python bench.py
       working-directory: ${{env.working-directory}} 

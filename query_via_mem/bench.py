@@ -26,6 +26,7 @@ def test_spark_dummy_op():
 
 
 def test_spark_direct_from_file():
+    print(f'[{get_current_funcname()}]')
     spark = SparkSession.builder.getOrCreate()
     table_name = 'file_direct'
     start_time = time.time()
@@ -34,25 +35,30 @@ def test_spark_direct_from_file():
     res = spark.sql(f"select count(*) from {table_name} where colname0 like '%hello%'")
     res.show()
     elapsed_time = time.time() - start_time
-    print(f'[{get_current_funcname()}]')
     print(f'Elapsed Time: {elapsed_time} secs')
+    print()
+    print()
 
 
 def test_spark_via_mem():
+    print(f'[{get_current_funcname()}]')
     spark = SparkSession.builder.getOrCreate()
     table_name = 'via_mem'
     start_time = time.time()
     # copy to temp file
     in_mem_file = f'/mnt/ramdisk/{SPARK_VIA_MEM_FILE}'
     os.system(f'cp {SPARK_VIA_MEM_FILE} {in_mem_file}')
+    elapsed_time = time.time() - start_time
+    print(f'Copying file -> mem took {elapsed_time} secs')
     # spark processing
     spark.read.csv(in_mem_file, sep=',', inferSchema=True, header=True) \
         .createOrReplaceTempView(table_name)
     res = spark.sql(f"select count(*) from {table_name} where colname0 like '%hello%'")
     res.show()
     elapsed_time = time.time() - start_time
-    print(f'[{get_current_funcname()}]')
     print(f'Elapsed Time: {elapsed_time} secs')
+    print()
+    print()
 
 
 def test_all():

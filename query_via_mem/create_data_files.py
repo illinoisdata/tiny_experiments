@@ -31,10 +31,12 @@ for i in range(ITR_MAX):
     if i == 0:
         row = gen_a_row()
         os.system('echo "{}" > {}'.format(row, new_file))
+        print(f'created {new_file}')
         continue
     prev_file = f'{TEMP_FILE}{i-1}'
     os.system('cat {} {} > {}'.format(prev_file, prev_file, new_file))
     fsize = os.path.getsize(new_file)
+    print(f'created {new_file} of size {fsize}')
     if fsize >= TARGET_SIZE:
         break
 

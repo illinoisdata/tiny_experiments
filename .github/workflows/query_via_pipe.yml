@@ -1,0 +1,21 @@
+name: QUERY_VIA_PIPE
+
+on: push
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./query_via_pipe
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+    - name: Dependencies
+      run: pip install -r requirements.txt
+      working-directory: ${{env.working-directory}}
+    - name: Test
+      run: |
+        bash run.sh
+      working-directory: ${{env.working-directory}}
